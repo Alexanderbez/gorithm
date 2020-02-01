@@ -1,10 +1,15 @@
-package graph
+package mst_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/alexanderbez/gorithm/graph/mst"
+	"github.com/stretchr/testify/require"
+)
 
 func TestExecPrim(t *testing.T) {
-	// Graph reflected as shown: http://www.geeksforgeeks.org/wp-content/uploads/Fig-11.jpg
-	g := NewGraph(9)
+	// graph reflected as shown: http://www.geeksforgeeks.org/wp-content/uploads/Fig-11.jpg
+	g := mst.NewGraph(9)
 	g.InsertWeighted(0, 1, 4)
 	g.InsertWeighted(0, 7, 8)
 	g.InsertWeighted(1, 2, 8)
@@ -19,9 +24,5 @@ func TestExecPrim(t *testing.T) {
 	g.InsertWeighted(3, 5, 14)
 	g.InsertWeighted(6, 5, 2)
 
-	mstValue := ExecPrim(g, 0)
-	expected := 37
-	if mstValue != expected {
-		t.Errorf("expected: %v (got %v)", expected, mstValue)
-	}
+	require.Equal(t, 37, g.ExecPrim(0))
 }

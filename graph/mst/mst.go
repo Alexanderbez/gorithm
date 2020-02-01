@@ -1,9 +1,8 @@
-// MST Algorithm Implementations.
-//
-// Copyright 2017 Aleksandr Bezobchuk.
-package graph
+package mst
 
-import "math"
+import (
+	"math"
+)
 
 // Graph reflects an undirected graph represented as an adjacency matrix. Each
 // value can reflect the edge weight between two vertices or a non-zero value
@@ -30,9 +29,9 @@ func (g Graph) InsertUnweighted(v, u int) { g.graph[v][u] = 1; g.graph[u][v] = 1
 func (g Graph) InsertWeighted(v, u, w int) { g.graph[v][u] = w; g.graph[u][v] = w }
 
 // ExecPrim implements Prim’s Minimum Spanning Tree (MST) algorithm. As input,
-// a weight undirected graph is given and a starting vertex. The graph is
-// represented via an adjacency matrix where each entry reflects the edge
-// weight between two vertices. The MST total edge weight is returned.
+// a starting vertex is given. The graph is represented via an adjacency matrix
+// where each entry reflects the edge weight between two vertices. The MST total
+// edge weight is returned.
 //
 // Note: Each edge weight is assumed to be non-negative.
 //
@@ -49,7 +48,7 @@ func (g Graph) InsertWeighted(v, u, w int) { g.graph[v][u] = w; g.graph[u][v] = 
 // values, iterate through all adjacent vertices. For every adjacent vertex v,
 // if weight of edge u-v is less than the previous key value of v, update the
 // key value as weight of u-v.
-func ExecPrim(g Graph, s int) int {
+func (g Graph) ExecPrim(s int) int {
 	mstValue := 0
 	mstSet := make(map[int]bool)
 	vertexValues := make([]int, len(g.graph))
