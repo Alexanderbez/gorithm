@@ -1,4 +1,4 @@
-package bfs
+package dfs
 
 import (
 	"github.com/alexanderbez/gorithm/container"
@@ -30,27 +30,27 @@ func (g *Graph) AddEdge(src, dst *Node) {
 	g.nodes[src.Value] = append(g.nodes[src.Value], dst)
 }
 
-// BFS performs a breadth first search over the graph starting at a given source
+// DFS performs a depth first search over the graph starting at a given source
 // Node. For each visited node, the provided match callback is invoked. If the
 // callback returns true, it indicates a match and traversal halts.
-func (g *Graph) BFS(src *Node, match func(n *Node) (halt bool)) {
+func (g *Graph) DFS(src *Node, match func(n *Node) (halt bool)) {
 	visited := make(map[int]bool)
 
-	queue := container.NewQueue()
-	queue.Push(src)
+	stack := container.NewStack()
+	stack.Push(src)
 
-	for queue.Size() != 0 {
-		node := queue.Pop().(*Node)
+	for stack.Size() != 0 {
+		node := stack.Pop().(*Node)
 
 		if match(node) {
 			return
 		}
 
-		// add all neighbors to queue
+		// add all neighbors to stack
 		for _, neighbor := range g.nodes[node.Value] {
 			if !visited[neighbor.Value] {
 				visited[neighbor.Value] = true
-				queue.Push(neighbor)
+				stack.Push(neighbor)
 			}
 		}
 	}
