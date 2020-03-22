@@ -38,6 +38,7 @@ func (g *Graph) DFS(src *Node, match func(n *Node) (halt bool)) {
 
 	stack := container.NewStack()
 	stack.Push(src)
+	visited[src.Value] = true
 
 	for stack.Size() != 0 {
 		node := stack.Pop().(*Node)

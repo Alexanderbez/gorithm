@@ -1,6 +1,7 @@
 package bfs_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/alexanderbez/gorithm/graph/bfs"
@@ -12,7 +13,7 @@ func TestBFS(t *testing.T) {
 
 	nodes := make(map[int]*bfs.Node)
 	for i := 1; i <= 6; i++ {
-		nodes[i] = &bfs.Node{Value: i}
+		nodes[i] = &bfs.Node{ID: fmt.Sprintf("node-%d", i), Weight: i}
 	}
 
 	q.AddEdge(nodes[1], nodes[2])
@@ -26,7 +27,7 @@ func TestBFS(t *testing.T) {
 
 	traversal := []int{}
 	q.BFS(nodes[1], func(n *bfs.Node) (halt bool) {
-		traversal = append(traversal, n.Value)
+		traversal = append(traversal, n.Weight)
 		return false
 	})
 

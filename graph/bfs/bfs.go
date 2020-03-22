@@ -6,38 +6,41 @@ import (
 
 type (
 	Node struct {
-		Value int
+		ID     string
+		Weight int
 	}
 
+	// Graph defines a directional graph implementation.
 	Graph struct {
-		nodes map[int][]*Node
+		nodes map[string][]*Node
 	}
 )
 
 func NewGraph() *Graph {
 	return &Graph{
-		nodes: make(map[int][]*Node),
+		nodes: make(map[string][]*Node),
 	}
 }
 
 // AddEdge adds a unidirectional edge between a source node and a destination node.
 func (g *Graph) AddEdge(src, dst *Node) {
-	_, ok := g.nodes[src.Value]
+	_, ok := g.nodes[src.ID]
 	if !ok {
-		g.nodes[src.Value] = make([]*Node, 0)
+		g.nodes[src.ID] = make([]*Node, 0)
 	}
 
-	g.nodes[src.Value] = append(g.nodes[src.Value], dst)
+	g.nodes[src.ID] = append(g.nodes[src.ID], dst)
 }
 
 // BFS performs a breadth first search over the graph starting at a given source
 // Node. For each visited node, the provided match callback is invoked. If the
 // callback returns true, it indicates a match and traversal halts.
 func (g *Graph) BFS(src *Node, match func(n *Node) (halt bool)) {
-	visited := make(map[int]bool)
+	visited := make(map[string]bool)
 
 	queue := container.NewQueue()
 	queue.Push(src)
+	visited[src.ID] = true
 
 	for queue.Size() != 0 {
 		node := queue.Pop().(*Node)
@@ -47,9 +50,9 @@ func (g *Graph) BFS(src *Node, match func(n *Node) (halt bool)) {
 		}
 
 		// add all neighbors to queue
-		for _, neighbor := range g.nodes[node.Value] {
-			if !visited[neighbor.Value] {
-				visited[neighbor.Value] = true
+		for _, neighbor := range g.nodes[node.ID] {
+			if !visited[neighbor.ID] {
+				visited[neighbor.ID] = true
 				queue.Push(neighbor)
 			}
 		}
