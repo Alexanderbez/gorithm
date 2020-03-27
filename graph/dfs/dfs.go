@@ -56,3 +56,28 @@ func (g *Graph) DFS(src *Node, match func(n *Node) (halt bool)) {
 		}
 	}
 }
+
+// RecursiveDFS performs a depth first search recursively over the graph starting
+// at a given source Node. For each visited node, the provided match callback is
+// invoked. If the callback returns true, it indicates a match and traversal halts.
+func (g *Graph) RecursiveDFS(src *Node, match func(n *Node) (halt bool)) {
+	visited := make(map[int]bool)
+	g.recursiveDFSAux(src, visited, match)
+}
+
+func (g *Graph) recursiveDFSAux(n *Node, visited map[int]bool, match func(n *Node) (halt bool)) {
+	if n == nil {
+		return
+	}
+
+	visited[n.Value] = true
+	if match(n) {
+		return
+	}
+
+	for _, neighbor := range g.nodes[n.Value] {
+		if !visited[neighbor.Value] {
+			g.recursiveDFSAux(neighbor, visited, match)
+		}
+	}
+}
