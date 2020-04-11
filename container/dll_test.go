@@ -52,4 +52,14 @@ func TestDoubleLinkedList(t *testing.T) {
 		require.Equal(t, i, v.(int))
 		require.Equal(t, size-(i+1), dll.Len())
 	}
+
+	n := dll.InsertFront(0)
+	require.NotNil(t, n)
+	require.Equal(t, 0, n.Value.(int))
+	require.Equal(t, 1, dll.Len())
+
+	n = dll.InsertBack(1)
+	require.NotNil(t, n)
+	require.Equal(t, 1, n.Value.(int))
+	require.Equal(t, 2, dll.Len())
 }
